@@ -15,6 +15,7 @@ export default function CampaignPage() {
   const [user, setUser] = useState(null)
   const [accessToken, setAccessToken] = useState(null)
   const [rewrittenEmail, setRewrittenEmail] = useState('')
+  const [rewrittenSubject, setRewrittenSubject] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
@@ -48,14 +49,16 @@ export default function CampaignPage() {
       try {
         if (import.meta.env.VITE_TEST_MODE === 'true') {
           setRewrittenEmail(campaign.draft)
+          setRewrittenSubject(campaign.subject)
         } else {
           const res = await fetch('/api/rewrite', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ draft: campaign.draft }),
+            body: JSON.stringify({ draft: campaign.draft, subject: campaign.subject }),
           })
           const data = await res.json()
           setRewrittenEmail(data.rewritten)
+          setRewrittenSubject(data.subject)
         }
       } catch {
         setError('Failed to generate your email. Please try again.')
@@ -74,7 +77,7 @@ export default function CampaignPage() {
       if (import.meta.env.VITE_TEST_MODE === 'true') {
         await new Promise(r => setTimeout(r, 800))
       } else {
-        await sendEmail(accessToken, campaign.managementEmail, campaign.subject, rewrittenEmail)
+        await sendEmail(accessToken, campaign.managementEmail, rewrittenSubject || campaign.subject, rewrittenEmail)
         // increment counter
         await fetch(`/api/campaign?id=${id}&action=increment`, { method: 'POST' })
       }
@@ -117,7 +120,7 @@ export default function CampaignPage() {
   if (screen === 'preview') {
     return (
       <PreviewScreen
-        campaign={campaign}
+        campaign={{ ...campaign, subject: rewrittenSubject || campaign.subject }}
         user={user}
         rewrittenEmail={rewrittenEmail}
         isLoading={isLoading}
