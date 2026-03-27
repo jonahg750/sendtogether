@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import { useGoogleLogin } from '@react-oauth/google'
 import { sendEmail } from '../utils/gmail.js'
 import LandingScreen from '../components/LandingScreen.jsx'
@@ -8,6 +8,9 @@ import DoneScreen from '../components/DoneScreen.jsx'
 
 export default function CampaignPage() {
   const { id } = useParams()
+  const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
+  const isOrganizer = searchParams.get('from') === 'create'
   const [campaign, setCampaign] = useState(null)
   const [loadError, setLoadError] = useState(null)
 
@@ -86,7 +89,11 @@ export default function CampaignPage() {
         }
         await fetch(`/api/campaign?id=${id}&action=increment`, { method: 'POST' })
       }
-      setScreen('done')
+      if (isOrganizer) {
+        navigate(`/manage/${id}`)
+      } else {
+        setScreen('done')
+      }
     } catch (err) {
       setError(err.message || 'Failed to send email. Please try again.')
       setScreen('error')

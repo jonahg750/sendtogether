@@ -22,7 +22,7 @@ export default function HomePage() {
         <div className="inline-block bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-6 tracking-wide uppercase">
           For apartment residents
         </div>
-        <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight mb-4">
           One resident emailing is easy to ignore.
           <span className="text-blue-600"> Ten is not.</span>
         </h1>
@@ -79,7 +79,7 @@ export default function HomePage() {
       {/* Trust */}
       <div className="px-6 py-10 max-w-lg mx-auto w-full text-center">
         <p className="text-sm font-semibold text-gray-700 mb-4">Built with privacy in mind</p>
-        <div className="grid grid-cols-3 gap-4 text-center mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center mb-8">
           <div className="bg-white border border-gray-100 rounded-xl p-3 shadow-sm">
             <p className="text-xs font-semibold text-gray-800 mb-0.5">No inbox access</p>
             <p className="text-xs text-gray-400">We only request send permission</p>
