@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
-import { useGoogleLogin } from '@react-oauth/google'
 import { sendEmail } from '../utils/gmail.js'
 import LandingScreen from '../components/LandingScreen.jsx'
 import PreviewScreen from '../components/PreviewScreen.jsx'
@@ -32,46 +31,59 @@ export default function CampaignPage() {
       .catch(() => setLoadError('Failed to load campaign'))
   }, [id])
 
-  const signIn = useGoogleLogin({
-    scope: 'https://www.googleapis.com/auth/gmail.send',
-    onSuccess: async (tokenResponse) => {
-      setAccessToken(tokenResponse.access_token)
-      try {
-        const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-        })
-        const info = await res.json()
-        setUser({ name: info.name, email: info.email })
-      } catch {
-        setUser({ name: 'Neighbor', email: '' })
-      }
-
-      setScreen('preview')
-      setIsLoading(true)
-
-      try {
-        if (import.meta.env.VITE_TEST_MODE === 'true') {
-          setRewrittenEmail(campaign.draft)
-          setRewrittenSubject(campaign.subject)
-        } else {
-          const res = await fetch('/api/rewrite', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ draft: campaign.draft, subject: campaign.subject }),
-          })
-          const data = await res.json()
-          setRewrittenEmail(data.rewritten)
-          setRewrittenSubject(data.subject)
+  function signIn() {
+    const client = window.google.accounts.oauth2.initTokenClient({
+      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+      scope: [
+        'https://www.googleapis.com/auth/gmail.send',
+        'https://www.googleapis.com/auth/userinfo.email',
+        'https://www.googleapis.com/auth/userinfo.profile',
+      ].join(' '),
+      callback: async (tokenResponse) => {
+        if (tokenResponse.error) {
+          setError('Sign-in failed. Please try again.')
+          return
         }
-      } catch {
-        setError('Failed to generate your email. Please try again.')
-        setScreen('error')
-      } finally {
-        setIsLoading(false)
-      }
-    },
-    onError: () => setError('Sign-in failed. Please try again.'),
-  })
+        const token = tokenResponse.access_token
+        setAccessToken(token)
+
+        try {
+          const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          const info = await res.json()
+          setUser({ name: info.name, email: info.email })
+        } catch {
+          setUser({ name: 'Neighbor', email: '' })
+        }
+
+        setScreen('preview')
+        setIsLoading(true)
+
+        try {
+          if (import.meta.env.VITE_TEST_MODE === 'true') {
+            setRewrittenEmail(campaign.draft)
+            setRewrittenSubject(campaign.subject)
+          } else {
+            const res = await fetch('/api/rewrite', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ draft: campaign.draft, subject: campaign.subject }),
+            })
+            const data = await res.json()
+            setRewrittenEmail(data.rewritten)
+            setRewrittenSubject(data.subject)
+          }
+        } catch {
+          setError('Failed to generate your email. Please try again.')
+          setScreen('error')
+        } finally {
+          setIsLoading(false)
+        }
+      },
+    })
+    client.requestAccessToken()
+  }
 
   async function handleSend() {
     if (!rewrittenEmail) return
