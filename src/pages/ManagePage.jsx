@@ -120,7 +120,9 @@ export default function ManagePage() {
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="border-b border-gray-100 px-5 py-3 bg-gray-50">
             <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">Sending to</p>
-            <p className="text-sm text-gray-700 mt-0.5">{campaign.managementEmail}</p>
+            <p className="text-sm text-gray-700 mt-0.5">
+              {(campaign.managementEmails || [campaign.managementEmail]).join(', ')}
+            </p>
           </div>
           <div className="px-5 py-4">
             <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-2">Draft email</p>

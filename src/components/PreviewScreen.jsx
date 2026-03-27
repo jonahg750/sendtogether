@@ -1,37 +1,49 @@
 export default function PreviewScreen({ campaign, user, rewrittenEmail, isLoading, onSend, onSignOut }) {
+  const recipients = campaign.managementEmails || [campaign.managementEmail]
+
   return (
-    <div className="flex flex-col min-h-screen px-5 py-8">
-      <div className="w-full max-w-md mx-auto flex flex-col gap-6">
+    <div className="flex flex-col min-h-screen bg-white px-5 py-8">
+      <div className="w-full max-w-md mx-auto flex flex-col gap-5">
+
+        {/* Wordmark */}
+        <p className="text-xs font-semibold text-gray-400 tracking-widest uppercase text-center">
+          SendTogether
+        </p>
+
         {/* User info */}
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-500">
-            Sending as <span className="font-medium text-gray-800">{user.email}</span>
+        <div className="flex items-center justify-between bg-gray-50 rounded-xl px-4 py-2.5">
+          <div className="text-sm text-gray-600">
+            Sending as <span className="font-semibold text-gray-900">{user.email}</span>
           </div>
           <button
             onClick={onSignOut}
-            className="text-xs text-gray-400 hover:text-gray-600 underline"
+            className="text-xs text-gray-400 hover:text-gray-600 underline ml-3 shrink-0"
           >
-            Sign out
+            Switch
           </button>
         </div>
 
         {/* Email preview */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="border-b border-gray-100 px-5 py-3 bg-gray-50">
-            <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1">To</p>
-            {campaign.recipientStrategy === 'random'
-              ? <p className="text-sm text-gray-700 italic">One recipient, randomly assigned</p>
-              : <p className="text-sm text-gray-700">{(campaign.managementEmails || [campaign.managementEmail]).join(', ')}</p>
-            }
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+          {/* Headers */}
+          <div className="border-b border-gray-100 px-5 py-3">
+            <span className="text-xs text-gray-400 uppercase tracking-wider font-medium">To</span>
+            <p className="text-sm text-gray-700 mt-0.5">
+              {campaign.recipientStrategy === 'random'
+                ? <span className="italic text-gray-500">One recipient, randomly assigned at send</span>
+                : recipients.join(', ')
+              }
+            </p>
           </div>
-          <div className="border-b border-gray-100 px-5 py-3 bg-gray-50">
-            <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1">Subject</p>
-            <p className="text-sm text-gray-700">{campaign.subject}</p>
+          <div className="border-b border-gray-100 px-5 py-3">
+            <span className="text-xs text-gray-400 uppercase tracking-wider font-medium">Subject</span>
+            <p className="text-sm text-gray-800 font-medium mt-0.5">{campaign.subject}</p>
           </div>
-          <div className="px-5 py-4">
-            <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-2">Your version</p>
+
+          {/* Body */}
+          <div className="px-5 py-4 min-h-[140px]">
             {isLoading ? (
-              <div className="space-y-2 animate-pulse">
+              <div className="space-y-2.5 animate-pulse pt-1">
                 <div className="h-3 bg-gray-100 rounded w-full" />
                 <div className="h-3 bg-gray-100 rounded w-5/6" />
                 <div className="h-3 bg-gray-100 rounded w-full" />
@@ -48,8 +60,8 @@ export default function PreviewScreen({ campaign, user, rewrittenEmail, isLoadin
         </div>
 
         {isLoading && (
-          <p className="text-center text-xs text-gray-400">
-            Generating your unique version...
+          <p className="text-center text-xs text-gray-400 -mt-2">
+            Writing your unique version...
           </p>
         )}
 
@@ -62,8 +74,8 @@ export default function PreviewScreen({ campaign, user, rewrittenEmail, isLoadin
           {isLoading ? 'Preparing...' : 'Send this email'}
         </button>
 
-        <p className="text-center text-xs text-gray-400">
-          Sent from your Gmail account
+        <p className="text-center text-xs text-gray-400 -mt-2">
+          Sent from your Gmail account. Check your sent folder after.
         </p>
       </div>
     </div>
