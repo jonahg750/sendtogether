@@ -24,6 +24,8 @@ export default async function handler(req, res) {
             role: 'user',
             content: `Rewrite this email and its subject line in a unique, natural way. Keep the same meaning, tone, and request. Same approximate length. Do not add greetings or sign-offs — preserve what's there.
 
+IMPORTANT: If the email contains any bracketed placeholders like [describe issue] or [your name], replace them with natural, specific language that fits the context of the email. Never leave bracketed placeholders in the output.
+
 Return your response in this exact format:
 SUBJECT: <rewritten subject line>
 BODY:
