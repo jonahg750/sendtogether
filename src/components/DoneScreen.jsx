@@ -16,38 +16,35 @@ export default function DoneScreen({ campaign, neighborCount }) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-5 py-10 text-center bg-white">
+    <div className="flex flex-col items-center justify-center min-h-screen px-5 py-10 text-center bg-white dark:bg-gray-900">
       <div className="w-full max-w-sm">
 
-        {/* Wordmark */}
-        <p className="text-xs font-semibold text-gray-400 tracking-widest uppercase mb-10">
+        <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 tracking-widest uppercase mb-10">
           SendTogether
         </p>
 
-        {/* Success icon */}
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5">
-          <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-5">
+          <svg className="w-8 h-8 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
 
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Email sent.</h1>
-        <p className="text-gray-500 text-sm mb-1">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Email sent.</h1>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">
           Your email is on its way to {campaign.buildingName || 'management'}.
         </p>
         {neighborCount > 1 && (
-          <p className="text-sm font-semibold text-gray-800 mb-8">
+          <p className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-8">
             {neighborCount} neighbors have now sent this.
           </p>
         )}
         {neighborCount <= 1 && <div className="mb-8" />}
 
-        {/* Share */}
-        <div className="bg-blue-50 border border-blue-100 rounded-2xl p-5 mb-6">
-          <p className="text-sm font-semibold text-blue-900 mb-1">
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-2xl p-5 mb-6">
+          <p className="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-1">
             Now share it — volume is the point
           </p>
-          <p className="text-xs text-blue-700 mb-4">
+          <p className="text-xs text-blue-700 dark:text-blue-300 mb-4">
             Drop this link in the group chat. The more neighbors who send, the harder it is to ignore.
           </p>
           <button
@@ -58,7 +55,7 @@ export default function DoneScreen({ campaign, neighborCount }) {
           </button>
         </div>
 
-        <p className="text-xs text-gray-400">
+        <p className="text-xs text-gray-400 dark:text-gray-500">
           Check your Gmail sent folder to confirm delivery.
         </p>
       </div>

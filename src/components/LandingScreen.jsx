@@ -1,61 +1,56 @@
 export default function LandingScreen({ campaign, neighborCount, onSignIn, isOrganizer }) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-5 py-10 text-center bg-white">
+    <div className="flex flex-col items-center justify-center min-h-screen px-5 py-10 text-center bg-white dark:bg-gray-900">
       <div className="w-full max-w-sm">
 
-        {/* Wordmark */}
-        <p className="text-xs font-semibold text-gray-400 tracking-widest uppercase mb-10">
+        <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 tracking-widest uppercase mb-10">
           SendTogether
         </p>
 
-        {/* Building */}
         {campaign.buildingName && (
-          <p className="text-sm font-semibold text-blue-600 uppercase tracking-widest mb-2">
+          <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-2">
             {campaign.buildingName}
           </p>
         )}
 
-        {/* Headline — different for organizer vs neighbor */}
         {isOrganizer ? (
           <>
-            <h1 className="text-2xl font-bold text-gray-900 leading-snug mb-3">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white leading-snug mb-3">
               Send your email first, then share with neighbors.
             </h1>
-            <p className="text-gray-500 text-sm mb-2">Your campaign is ready. Sign in to send about:</p>
+            <p className="text-gray-500 dark:text-gray-400 text-sm mb-2">Your campaign is ready. Sign in to send about:</p>
           </>
         ) : (
           <>
-            <h1 className="text-2xl font-bold text-gray-900 leading-snug mb-3">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white leading-snug mb-3">
               {neighborCount === 0
                 ? 'Help your neighbors email management.'
                 : 'Your neighbors are emailing management.'}
             </h1>
-            <p className="text-gray-500 text-sm mb-2">About:</p>
+            <p className="text-gray-500 dark:text-gray-400 text-sm mb-2">About:</p>
           </>
         )}
 
-        <p className="font-medium text-gray-800 text-sm bg-gray-100 rounded-lg px-4 py-2 inline-block mb-6">
+        <p className="font-medium text-gray-800 dark:text-gray-200 text-sm bg-gray-100 dark:bg-gray-800 rounded-lg px-4 py-2 inline-block mb-6">
           {campaign.subject}
         </p>
 
-        {/* Neighbor count */}
         <div className="mb-8">
           {isOrganizer ? (
-            <p className="text-sm text-gray-400">You'll be the first to send.</p>
+            <p className="text-sm text-gray-400 dark:text-gray-500">You'll be the first to send.</p>
           ) : neighborCount === 0 ? (
-            <p className="text-sm text-gray-400">Be the first to send.</p>
+            <p className="text-sm text-gray-400 dark:text-gray-500">Be the first to send.</p>
           ) : (
-            <p className="text-sm text-gray-500">
-              <span className="font-bold text-gray-800 text-base">{neighborCount}</span>{' '}
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              <span className="font-bold text-gray-800 dark:text-gray-200 text-base">{neighborCount}</span>{' '}
               {neighborCount === 1 ? 'neighbor has' : 'neighbors have'} already sent this.
             </p>
           )}
         </div>
 
-        {/* CTA */}
         <button
           onClick={() => onSignIn()}
-          className="flex items-center gap-3 bg-white border border-gray-300 hover:border-gray-400 text-gray-700 font-medium text-sm px-6 py-3.5 rounded-xl shadow-sm transition-colors w-full justify-center mb-3"
+          className="flex items-center gap-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 text-gray-700 dark:text-gray-200 font-medium text-sm px-6 py-3.5 rounded-xl shadow-sm transition-colors w-full justify-center mb-3"
         >
           <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
             <g fill="none" fillRule="evenodd">
@@ -68,9 +63,9 @@ export default function LandingScreen({ campaign, neighborCount, onSignIn, isOrg
           Sign in with Google to send
         </button>
 
-        <p className="text-xs text-gray-400">
+        <p className="text-xs text-gray-400 dark:text-gray-500">
           We only request permission to send email on your behalf. We never read your inbox.{' '}
-          <a href="/privacy" className="underline hover:text-gray-600">Privacy policy</a>
+          <a href="/privacy" className="underline hover:text-gray-600 dark:hover:text-gray-300">Privacy policy</a>
         </p>
       </div>
     </div>

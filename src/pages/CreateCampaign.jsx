@@ -58,29 +58,32 @@ export default function CreateCampaign() {
     }
   }
 
+  const inputClass = "w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+
   return (
-    <div className="flex flex-col items-center min-h-screen px-5 py-10">
+    <div className="flex flex-col items-center min-h-screen px-5 py-10 bg-white dark:bg-gray-900">
       <div className="w-full max-w-md">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">Start a campaign</h1>
-          <p className="text-gray-500 text-sm">Fill in the details and you'll get a link to share with neighbors.</p>
+          <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 tracking-widest uppercase mb-6">SendTogether</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">Start a campaign</h1>
+          <p className="text-gray-500 dark:text-gray-400 text-sm">Fill in the details and you'll get a link to share with neighbors.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Building name</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Building name</label>
             <input
               name="buildingName"
               value={form.buildingName}
               onChange={handleChange}
               placeholder="e.g. The Nexus"
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={inputClass}
             />
           </div>
 
           {/* Recipients */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Management email(s) <span className="text-red-400">*</span>
             </label>
             <div className="space-y-2">
@@ -92,7 +95,7 @@ export default function CreateCampaign() {
                     onChange={e => handleEmailChange(i, e.target.value)}
                     required={i === 0}
                     placeholder="management@yourbuilding.com"
-                    className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="flex-1 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   {emails.length > 1 && (
                     <button
@@ -108,19 +111,19 @@ export default function CreateCampaign() {
               <button
                 type="button"
                 onClick={addEmail}
-                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
               >
                 + Add another recipient
               </button>
             </div>
           </div>
 
-          {/* Recipient strategy — only show if multiple emails */}
+          {/* Recipient strategy */}
           {emails.filter(Boolean).length > 1 && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Recipient strategy</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Recipient strategy</label>
               <div className="space-y-2">
-                <label className="flex items-start gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:border-blue-400 transition-colors">
+                <label className="flex items-start gap-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl px-4 py-3 cursor-pointer hover:border-blue-400 transition-colors">
                   <input
                     type="radio"
                     name="recipientStrategy"
@@ -130,11 +133,11 @@ export default function CreateCampaign() {
                     className="mt-0.5"
                   />
                   <div>
-                    <p className="text-sm font-medium text-gray-800">Email everyone</p>
-                    <p className="text-xs text-gray-500">Each neighbor's email goes to all recipients</p>
+                    <p className="text-sm font-medium text-gray-800 dark:text-gray-200">Email everyone</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Each neighbor's email goes to all recipients</p>
                   </div>
                 </label>
-                <label className="flex items-start gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:border-blue-400 transition-colors">
+                <label className="flex items-start gap-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl px-4 py-3 cursor-pointer hover:border-blue-400 transition-colors">
                   <input
                     type="radio"
                     name="recipientStrategy"
@@ -144,8 +147,8 @@ export default function CreateCampaign() {
                     className="mt-0.5"
                   />
                   <div>
-                    <p className="text-sm font-medium text-gray-800">Random pick</p>
-                    <p className="text-xs text-gray-500">Each neighbor's email goes to one randomly chosen recipient — spreads the volume</p>
+                    <p className="text-sm font-medium text-gray-800 dark:text-gray-200">Random pick</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Each neighbor's email goes to one randomly chosen recipient — spreads the volume</p>
                   </div>
                 </label>
               </div>
@@ -153,20 +156,20 @@ export default function CreateCampaign() {
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Subject line <span className="text-red-400">*</span></label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subject line <span className="text-red-400">*</span></label>
             <input
               name="subject"
               value={form.subject}
               onChange={handleChange}
               required
               placeholder="e.g. Request: Fix the billiards table"
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={inputClass}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Draft email <span className="text-red-400">*</span></label>
-            <p className="text-xs text-gray-400 mb-2">Each neighbor will get a uniquely reworded version of this.</p>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Draft email <span className="text-red-400">*</span></label>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">Each neighbor will get a uniquely reworded version of this.</p>
             <textarea
               name="draft"
               value={form.draft}
@@ -174,7 +177,7 @@ export default function CreateCampaign() {
               required
               rows={8}
               placeholder={`Hi,\n\nI'm a resident at [building] and I'm writing to request...\n\nThank you for your time.`}
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              className="w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none leading-relaxed"
             />
           </div>
 
@@ -183,7 +186,7 @@ export default function CreateCampaign() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-semibold py-4 rounded-2xl transition-colors"
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 dark:disabled:bg-blue-900 text-white font-semibold py-4 rounded-2xl transition-colors"
           >
             {isSubmitting ? 'Creating...' : 'Create campaign'}
           </button>
