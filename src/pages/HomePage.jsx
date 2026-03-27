@@ -7,7 +7,7 @@ export default function HomePage() {
     <div className="flex flex-col min-h-screen bg-white">
 
       {/* Nav */}
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+      <nav className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
         <p className="text-sm font-bold text-gray-900 tracking-tight">SendTogether</p>
         <button
           onClick={() => navigate('/create')}
@@ -18,7 +18,7 @@ export default function HomePage() {
       </nav>
 
       {/* Hero */}
-      <div className="flex flex-col items-center text-center px-6 py-16 max-w-lg mx-auto">
+      <div className="flex flex-col items-center text-center px-5 py-10 max-w-lg mx-auto">
         <div className="inline-block bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-6 tracking-wide uppercase">
           For apartment residents
         </div>
@@ -39,7 +39,7 @@ export default function HomePage() {
       </div>
 
       {/* How it works */}
-      <div className="bg-gray-50 border-t border-gray-100 px-6 py-12">
+      <div className="bg-gray-50 border-t border-gray-100 px-5 py-10">
         <div className="max-w-lg mx-auto">
           <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest text-center mb-8">
             How it works
@@ -77,7 +77,7 @@ export default function HomePage() {
       </div>
 
       {/* Trust */}
-      <div className="px-6 py-10 max-w-lg mx-auto w-full text-center">
+      <div className="px-5 py-10 max-w-lg mx-auto w-full text-center">
         <p className="text-sm font-semibold text-gray-700 mb-4">Built with privacy in mind</p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center mb-8">
           <div className="bg-white border border-gray-100 rounded-xl p-3 shadow-sm">

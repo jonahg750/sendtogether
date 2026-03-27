@@ -74,7 +74,7 @@ export default function CreateCampaign() {
               value={form.buildingName}
               onChange={handleChange}
               placeholder="e.g. The Nexus"
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
@@ -92,7 +92,7 @@ export default function CreateCampaign() {
                     onChange={e => handleEmailChange(i, e.target.value)}
                     required={i === 0}
                     placeholder="management@yourbuilding.com"
-                    className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   {emails.length > 1 && (
                     <button
@@ -160,7 +160,7 @@ export default function CreateCampaign() {
               onChange={handleChange}
               required
               placeholder="e.g. Request: Fix the billiards table"
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
