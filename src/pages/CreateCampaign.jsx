@@ -28,7 +28,7 @@ export default function CreateCampaign() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Failed to create campaign')
-      navigate(`/c/${data.id}`)
+      navigate(`/manage/${data.id}`)
     } catch (err) {
       setError(err.message)
     } finally {
