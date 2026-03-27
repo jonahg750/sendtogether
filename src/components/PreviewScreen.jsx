@@ -1,4 +1,4 @@
-export default function PreviewScreen({ campaign, user, rewrittenEmail, isLoading, onSend, onSignOut }) {
+export default function PreviewScreen({ campaign, user, rewrittenEmail, senderName, onSenderNameChange, isLoading, onSend, onSignOut }) {
   const recipients = campaign.managementEmails || [campaign.managementEmail]
 
   return (
@@ -55,6 +55,9 @@ export default function PreviewScreen({ campaign, user, rewrittenEmail, isLoadin
               <p className="text-sm text-gray-800 whitespace-pre-wrap leading-relaxed">
                 {rewrittenEmail}
               </p>
+              {senderName && (
+                <p className="text-sm text-gray-800 mt-3">{senderName}</p>
+              )}
             )}
           </div>
         </div>
@@ -63,6 +66,22 @@ export default function PreviewScreen({ campaign, user, rewrittenEmail, isLoadin
           <p className="text-center text-xs text-gray-400 -mt-2">
             Writing your unique version...
           </p>
+        )}
+
+        {/* Name field */}
+        {!isLoading && (
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">
+              Your name (appears as sign-off)
+            </label>
+            <input
+              type="text"
+              value={senderName}
+              onChange={e => onSenderNameChange(e.target.value)}
+              placeholder="First name"
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
         )}
 
         {/* Send button */}

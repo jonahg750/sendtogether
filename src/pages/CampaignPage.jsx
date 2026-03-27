@@ -18,6 +18,7 @@ export default function CampaignPage() {
   const [accessToken, setAccessToken] = useState(null)
   const [rewrittenEmail, setRewrittenEmail] = useState('')
   const [rewrittenSubject, setRewrittenSubject] = useState('')
+  const [senderName, setSenderName] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
@@ -53,6 +54,7 @@ export default function CampaignPage() {
           })
           const info = await res.json()
           setUser({ name: info.name, email: info.email })
+          setSenderName(info.name?.split(' ')[0] || '')
         } catch {
           setUser({ name: 'Neighbor', email: '' })
         }
@@ -96,8 +98,9 @@ export default function CampaignPage() {
         const recipients = campaign.recipientStrategy === 'random'
           ? [emails[Math.floor(Math.random() * emails.length)]]
           : emails
+        const body = senderName ? `${rewrittenEmail}\n\n${senderName}` : rewrittenEmail
         for (const to of recipients) {
-          await sendEmail(accessToken, to, rewrittenSubject || campaign.subject, rewrittenEmail)
+          await sendEmail(accessToken, to, rewrittenSubject || campaign.subject, body)
         }
         await fetch(`/api/campaign?id=${id}&action=increment`, { method: 'POST' })
       }
@@ -147,6 +150,8 @@ export default function CampaignPage() {
         campaign={{ ...campaign, subject: rewrittenSubject || campaign.subject }}
         user={user}
         rewrittenEmail={rewrittenEmail}
+        senderName={senderName}
+        onSenderNameChange={setSenderName}
         isLoading={isLoading}
         onSend={handleSend}
         onSignOut={handleSignOut}
