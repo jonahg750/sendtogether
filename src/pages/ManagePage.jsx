@@ -64,6 +64,15 @@ export default function ManagePage() {
     <div className="flex flex-col items-center min-h-screen px-5 py-10">
       <div className="w-full max-w-md space-y-5">
 
+        {/* Send first nudge */}
+        <div className="bg-blue-50 border border-blue-100 rounded-2xl p-4 flex items-start gap-3">
+          <span className="text-blue-500 text-lg mt-0.5">→</span>
+          <div>
+            <p className="text-sm font-semibold text-blue-900 mb-0.5">Send your email first</p>
+            <p className="text-xs text-blue-700">Use the campaign link below to send your own email before sharing it with neighbors.</p>
+          </div>
+        </div>
+
         {/* Header */}
         <div>
           <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-1">Your campaign</p>
