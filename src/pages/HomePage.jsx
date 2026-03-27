@@ -101,6 +101,8 @@ export default function HomePage() {
         </button>
         <p className="text-xs text-gray-400">
           <a href="/privacy" className="underline hover:text-gray-600">Privacy policy</a>
+          {' · '}
+          <a href="/terms" className="underline hover:text-gray-600">Terms of service</a>
         </p>
       </div>
 

@@ -4,6 +4,7 @@ import CreateCampaign from './pages/CreateCampaign.jsx'
 import CampaignPage from './pages/CampaignPage.jsx'
 import ManagePage from './pages/ManagePage.jsx'
 import PrivacyPage from './pages/PrivacyPage.jsx'
+import TermsPage from './pages/TermsPage.jsx'
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
       <Route path="/c/:id" element={<CampaignPage />} />
       <Route path="/manage/:id" element={<ManagePage />} />
       <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
