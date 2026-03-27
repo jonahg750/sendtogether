@@ -138,7 +138,7 @@ export default function CampaignPage() {
   }
 
   if (screen === 'landing') {
-    return <LandingScreen campaign={campaign} neighborCount={campaign.sendCount || 0} onSignIn={signIn} />
+    return <LandingScreen campaign={campaign} neighborCount={campaign.sendCount || 0} onSignIn={signIn} isOrganizer={isOrganizer} />
   }
 
   if (screen === 'preview') {

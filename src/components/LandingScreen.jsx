@@ -1,4 +1,4 @@
-export default function LandingScreen({ campaign, neighborCount, onSignIn }) {
+export default function LandingScreen({ campaign, neighborCount, onSignIn, isOrganizer }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-5 py-10 text-center bg-white">
       <div className="w-full max-w-sm">
@@ -8,25 +8,41 @@ export default function LandingScreen({ campaign, neighborCount, onSignIn }) {
           SendTogether
         </p>
 
-        {/* Building + count */}
+        {/* Building */}
         {campaign.buildingName && (
           <p className="text-sm font-semibold text-blue-600 uppercase tracking-widest mb-2">
             {campaign.buildingName}
           </p>
         )}
 
-        <h1 className="text-2xl font-bold text-gray-900 leading-snug mb-3">
-          Your neighbors are emailing management.
-        </h1>
+        {/* Headline — different for organizer vs neighbor */}
+        {isOrganizer ? (
+          <>
+            <h1 className="text-2xl font-bold text-gray-900 leading-snug mb-3">
+              Send your email first, then share with neighbors.
+            </h1>
+            <p className="text-gray-500 text-sm mb-2">Your campaign is ready. Sign in to send about:</p>
+          </>
+        ) : (
+          <>
+            <h1 className="text-2xl font-bold text-gray-900 leading-snug mb-3">
+              {neighborCount === 0
+                ? 'Help your neighbors email management.'
+                : 'Your neighbors are emailing management.'}
+            </h1>
+            <p className="text-gray-500 text-sm mb-2">About:</p>
+          </>
+        )}
 
-        <p className="text-gray-500 text-sm mb-2">About:</p>
         <p className="font-medium text-gray-800 text-sm bg-gray-100 rounded-lg px-4 py-2 inline-block mb-6">
           {campaign.subject}
         </p>
 
         {/* Neighbor count */}
         <div className="mb-8">
-          {neighborCount === 0 ? (
+          {isOrganizer ? (
+            <p className="text-sm text-gray-400">You'll be the first to send.</p>
+          ) : neighborCount === 0 ? (
             <p className="text-sm text-gray-400">Be the first to send.</p>
           ) : (
             <p className="text-sm text-gray-500">
