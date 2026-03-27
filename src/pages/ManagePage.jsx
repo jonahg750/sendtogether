@@ -64,12 +64,14 @@ export default function ManagePage() {
     <div className="flex flex-col items-center min-h-screen px-5 py-10">
       <div className="w-full max-w-md space-y-5">
 
-        {/* Send first nudge */}
-        <div className="bg-blue-50 border border-blue-100 rounded-2xl p-4 flex items-start gap-3">
-          <span className="text-blue-500 text-lg mt-0.5">→</span>
+        {/* Status banner */}
+        <div className="bg-green-50 border border-green-100 rounded-2xl p-4 flex items-start gap-3">
+          <svg className="w-5 h-5 text-green-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
           <div>
-            <p className="text-sm font-semibold text-blue-900 mb-0.5">Send your email first</p>
-            <p className="text-xs text-blue-700">Use the campaign link below to send your own email before sharing it with neighbors.</p>
+            <p className="text-sm font-semibold text-green-900 mb-0.5">Your email was sent</p>
+            <p className="text-xs text-green-700">Now share the link below so your neighbors can join in.</p>
           </div>
         </div>
 
