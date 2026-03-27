@@ -77,8 +77,13 @@ export default function CampaignPage() {
       if (import.meta.env.VITE_TEST_MODE === 'true') {
         await new Promise(r => setTimeout(r, 800))
       } else {
-        await sendEmail(accessToken, campaign.managementEmail, rewrittenSubject || campaign.subject, rewrittenEmail)
-        // increment counter
+        const emails = campaign.managementEmails || [campaign.managementEmail]
+        const recipients = campaign.recipientStrategy === 'random'
+          ? [emails[Math.floor(Math.random() * emails.length)]]
+          : emails
+        for (const to of recipients) {
+          await sendEmail(accessToken, to, rewrittenSubject || campaign.subject, rewrittenEmail)
+        }
         await fetch(`/api/campaign?id=${id}&action=increment`, { method: 'POST' })
       }
       setScreen('done')

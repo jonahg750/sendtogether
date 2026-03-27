@@ -19,19 +19,20 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const { managementEmail, subject, draft, buildingName } = req.body
+  const { managementEmails, subject, draft, buildingName, recipientStrategy } = req.body
 
-  if (!managementEmail || !subject || !draft) {
-    return res.status(400).json({ error: 'managementEmail, subject, and draft are required' })
+  if (!managementEmails?.length || !subject || !draft) {
+    return res.status(400).json({ error: 'managementEmails, subject, and draft are required' })
   }
 
   const id = nanoid()
   const campaign = {
     id,
-    managementEmail,
+    managementEmails,
     subject,
     draft,
     buildingName: buildingName || '',
+    recipientStrategy: recipientStrategy || 'all',
     createdAt: Date.now(),
     sendCount: 0,
   }

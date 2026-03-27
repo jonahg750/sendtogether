@@ -5,10 +5,11 @@ export default function CreateCampaign() {
   const navigate = useNavigate()
   const [form, setForm] = useState({
     buildingName: '',
-    managementEmail: '',
     subject: '',
     draft: '',
   })
+  const [emails, setEmails] = useState([''])
+  const [recipientStrategy, setRecipientStrategy] = useState('all')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState(null)
 
@@ -16,15 +17,36 @@ export default function CreateCampaign() {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }))
   }
 
+  function handleEmailChange(index, value) {
+    setEmails(prev => prev.map((e, i) => i === index ? value : e))
+  }
+
+  function addEmail() {
+    setEmails(prev => [...prev, ''])
+  }
+
+  function removeEmail(index) {
+    setEmails(prev => prev.filter((_, i) => i !== index))
+  }
+
   async function handleSubmit(e) {
     e.preventDefault()
+    const validEmails = emails.map(e => e.trim()).filter(Boolean)
+    if (validEmails.length === 0) {
+      setError('At least one management email is required.')
+      return
+    }
     setIsSubmitting(true)
     setError(null)
     try {
       const res = await fetch('/api/campaigns', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          managementEmails: validEmails,
+          recipientStrategy,
+        }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Failed to create campaign')
@@ -56,18 +78,79 @@ export default function CreateCampaign() {
             />
           </div>
 
+          {/* Recipients */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Management email <span className="text-red-400">*</span></label>
-            <input
-              name="managementEmail"
-              type="email"
-              value={form.managementEmail}
-              onChange={handleChange}
-              required
-              placeholder="management@yourbuilding.com"
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Management email(s) <span className="text-red-400">*</span>
+            </label>
+            <div className="space-y-2">
+              {emails.map((email, i) => (
+                <div key={i} className="flex gap-2">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={e => handleEmailChange(i, e.target.value)}
+                    required={i === 0}
+                    placeholder="management@yourbuilding.com"
+                    className="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  {emails.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeEmail(i)}
+                      className="text-gray-400 hover:text-red-500 px-2 text-lg leading-none"
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={addEmail}
+                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+              >
+                + Add another recipient
+              </button>
+            </div>
           </div>
+
+          {/* Recipient strategy — only show if multiple emails */}
+          {emails.filter(Boolean).length > 1 && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Recipient strategy</label>
+              <div className="space-y-2">
+                <label className="flex items-start gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:border-blue-400 transition-colors">
+                  <input
+                    type="radio"
+                    name="recipientStrategy"
+                    value="all"
+                    checked={recipientStrategy === 'all'}
+                    onChange={() => setRecipientStrategy('all')}
+                    className="mt-0.5"
+                  />
+                  <div>
+                    <p className="text-sm font-medium text-gray-800">Email everyone</p>
+                    <p className="text-xs text-gray-500">Each neighbor's email goes to all recipients</p>
+                  </div>
+                </label>
+                <label className="flex items-start gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:border-blue-400 transition-colors">
+                  <input
+                    type="radio"
+                    name="recipientStrategy"
+                    value="random"
+                    checked={recipientStrategy === 'random'}
+                    onChange={() => setRecipientStrategy('random')}
+                    className="mt-0.5"
+                  />
+                  <div>
+                    <p className="text-sm font-medium text-gray-800">Random pick</p>
+                    <p className="text-xs text-gray-500">Each neighbor's email goes to one randomly chosen recipient — spreads the volume</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+          )}
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Subject line <span className="text-red-400">*</span></label>
@@ -95,9 +178,7 @@ export default function CreateCampaign() {
             />
           </div>
 
-          {error && (
-            <p className="text-sm text-red-500">{error}</p>
-          )}
+          {error && <p className="text-sm text-red-500">{error}</p>}
 
           <button
             type="submit"

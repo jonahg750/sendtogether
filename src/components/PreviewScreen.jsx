@@ -19,7 +19,10 @@ export default function PreviewScreen({ campaign, user, rewrittenEmail, isLoadin
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="border-b border-gray-100 px-5 py-3 bg-gray-50">
             <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1">To</p>
-            <p className="text-sm text-gray-700">{campaign.managementEmail}</p>
+            {campaign.recipientStrategy === 'random'
+              ? <p className="text-sm text-gray-700 italic">One recipient, randomly assigned</p>
+              : <p className="text-sm text-gray-700">{(campaign.managementEmails || [campaign.managementEmail]).join(', ')}</p>
+            }
           </div>
           <div className="border-b border-gray-100 px-5 py-3 bg-gray-50">
             <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1">Subject</p>
@@ -60,7 +63,7 @@ export default function PreviewScreen({ campaign, user, rewrittenEmail, isLoadin
         </button>
 
         <p className="text-center text-xs text-gray-400">
-          This will be sent from your Gmail account to {campaign.managementEmail}
+          Sent from your Gmail account
         </p>
       </div>
     </div>
