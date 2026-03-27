@@ -39,7 +39,10 @@ export default function HomePage() {
         >
           Start a campaign
         </button>
-        <p className="text-xs text-gray-400">Free to use. No account required.</p>
+        <p className="text-xs text-gray-400">
+          Free to use. No account required.{' '}
+          <a href="/privacy" className="underline hover:text-gray-600">Privacy policy</a>
+        </p>
       </div>
     </div>
   )
